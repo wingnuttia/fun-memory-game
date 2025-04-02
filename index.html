@@ -1,0 +1,308 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <title>Memory Game</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    
+
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+
+	<div class="container">
+        <header>
+            <h1>Memory Game</h1>
+        </header>
+
+        <section class="score-panel">
+        	<ul class="stars">
+        		<li><i class="fa fa-star"></i></li>
+        		<li><i class="fa fa-star"></i></li>
+        		<li><i class="fa fa-star"></i></li>
+        	</ul>
+
+        	<span class="moves">0</span> Move(s)
+
+            <p><div class="timer"></P>
+            </div>
+
+            <div class="restart" onclick=resetBoard()>
+        		<i class="fa fa-repeat"></i>
+        	</div>
+        </section>
+    
+  
+		<section class="memory-game" id="card-deck">
+			<div class="memory-card" data-framework="Carrier">
+				<img class="front-face" src="img/CarrierBag.png" alt="Carrier">
+				<img class="back-face" src="img/CardBack.png" alt="Memory Card">
+			</div>
+
+			<div class="memory-card" data-framework="Carrier">
+				<img class="front-face" src="img/CarrierBag.png" alt="Carrier">
+				<img class="back-face" src="img/CardBack.png" alt="Memory Card">
+			</div>
+
+			<div class="memory-card" data-framework="ChocolateBar">
+				<img class="front-face" src="img/ChocolateBar.png" alt="ChocolateBar">
+				<img class="back-face" src="img/CardBack.png" alt="Memory Card">
+			</div>
+
+			<div class="memory-card" data-framework="ChocolateBar">
+				<img class="front-face" src="img/ChocolateBar.png" alt="ChocolateBar">
+				<img class="back-face" src="img/CardBack.png" alt="Memory Card">
+			</div>
+
+			<div class="memory-card" data-framework="CrispPacket">
+				<img class="front-face" src="img/Crisp.png" alt="CrispPacket">
+				<img class="back-face" src="img/CardBack.png" alt="Memory Card">
+			</div>
+
+			<div class="memory-card" data-framework="CrispPacket">
+				<img class="front-face" src="img/Crisp.png" alt="ChrispPacket">
+				<img class="back-face" src="img/CardBack.png" alt="Memory Card">
+			</div>
+
+			<div class="memory-card" data-framework="Cup">
+				<img class="front-face" src="img/Cup.png" alt="Cup">
+				<img class="back-face" src="img/CardBack.png" alt="Memory Card">
+			</div>
+
+			<div class="memory-card" data-framework="Cup">
+				<img class="front-face" src="img/Cup.png" alt="Cup">
+				<img class="back-face" src="img/CardBack.png" alt="Memory Card">
+			</div>
+
+			<div class="memory-card" data-framework="DrinkBottle">
+				<img class="front-face" src="img/Drinks.png" alt="DrinkBottle">
+				<img class="back-face" src="img/CardBack.png" alt="Memory Card">
+			</div>
+
+			<div class="memory-card" data-framework="DrinkBottle">
+				<img class="front-face" src="img/Drinks.png" alt="DrinkBottle">
+				<img class="back-face" src="img/CardBack.png" alt="Memory Card">
+			</div>
+
+			<div class="memory-card" data-framework="Recycling">
+				<img class="front-face" src="img/Recycling.png" alt="Recycling">
+				<img class="back-face" src="img/CardBack.png" alt="Memory Card">
+			</div>
+
+			<div class="memory-card" data-framework="Recycling">
+				<img class="front-face" src="img/Recycling.png" alt="Recycling">
+				<img class="back-face" src="img/CardBack.png" alt="Memory Card">
+			</div>
+		</section>
+
+		<div id="popup1" class="overlay">
+            <div class="popup">
+                <h2>Congratulations 🎉</h2>
+                <a class="close" href=# >×</a>
+                <div class="content-1">
+                    Congratulations you're a winner 🎉🎉
+                </div>
+                <div class="content-2">
+                    <p>You made <span id=finalMove> </span> moves </p>
+                    <p>in <span id=totalTime> </span> </p>
+                    <p>Rating:  <span id=starRating></span></p>
+                </div>
+                <button id="play-again"onclick="playAgain()">
+                    Play again 😄</a>
+                </button>
+            </div>
+        </div>
+  
+		<script>
+			const cards = document.querySelectorAll('.memory-card');
+
+			let hasFlippedCard = false;
+			let lockBoard = false;
+			let firstCard, secondCard;
+			
+			// declaring move variable
+			let moves = 0;
+			let counter = document.querySelector(".moves");
+			
+			// declare variables for star icons
+			const stars = document.querySelectorAll(".fa-star");
+			
+			// deck of all cards in game
+			//const deck = document.getElementById("card-deck");
+
+			// stars list
+			let starsList = document.querySelectorAll(".stars li");
+
+			// close icon in modal
+			//let closeicon = document.querySelector(".close");
+			
+			// declare modal
+			//let modal = document.getElementById("popup1")
+			
+			
+			// declaring variable of matchedCards
+			//let matchedCard = document.getElementsByClassName("match");
+
+			// array for opened cards
+			//var openedCards = [];
+
+
+			(function shuffle() {
+				cards.forEach(card => {
+				let ramdomPos = Math.floor(Math.random() * 12);
+				card.style.order = ramdomPos;
+				});
+			})();	
+			
+				//reset moves
+				//moves = 0;
+				//counter.innerHTML = moves;
+				//reset rating
+				//for (var i= 0; i < stars.length; i++){
+					//stars[i].style.color = "#FFD700";
+					//stars[i].style.visibility = "visible";
+				//}
+				//reset timer
+				//second = 0;
+				//minute = 0; 
+				//hour = 0;
+				//var timer = document.querySelector(".timer");
+				//timer.innerHTML = "0 mins 0 secs";
+				//clearInterval(interval);-->
+				
+			
+				
+			function flipCard() {
+				if (lockBoard) return;
+				if (this === firstCard) return;
+   
+					this.classList.add('flip');
+
+				if (!hasFlippedCard) {
+					hasFlippedCard = true;
+					firstCard = this;
+					return;
+				}
+
+				secondCard = this;
+				//hasFlippedCard = false;
+				checkForMatch();
+				moveCounter();
+				
+			}
+
+			function checkForMatch() {
+				
+				let isMatch = firstCard.dataset.framework === secondCard.dataset.framework;
+				isMatch ? disableCards() : unflipCards();
+			}
+
+			function disableCards() {
+				firstCard.removeEventListener('click', flipCard);
+				secondCard.removeEventListener('click', flipCard);
+				
+				resetBoard();
+			}
+
+			function unflipCards() {
+				lockBoard = true;
+
+				setTimeout(() => {
+				firstCard.classList.remove('flip');
+				secondCard.classList.remove('flip');
+
+				//lockBoard = false;
+				resetBoard();
+				}, 1500);
+			}
+  
+			function resetBoard() {
+				[hasFlippedCard, lockBoard] = [false, false];
+				[firstCard, secondCard] = [null, null];
+			}
+
+			
+			// @description count player's moves
+			function moveCounter(){
+				moves++;
+				counter.innerHTML = moves;
+				
+				//start timer on first click
+				if(moves == 1){
+					second = 0;
+					minute = 0; 
+					hour = 0;
+					startTimer();
+				}
+				// setting rates based on moves
+				if (moves > 8 && moves < 12){
+					for( i= 0; i < 3; i++){
+						if(i > 1){
+							stars[i].style.visibility = "collapse";
+						}
+					}
+				}
+				else if (moves > 13){
+					for( i= 0; i < 3; i++){
+						if(i > 0){
+							stars[i].style.visibility = "collapse";
+						}
+					}
+				}
+			}
+			
+			
+			// @description game timer
+			var second = 0, minute = 0; hour = 0;
+			var timer = document.querySelector(".timer");
+			var interval;
+			
+			function startTimer(){
+				interval = setInterval(function(){
+				timer.innerHTML = minute+"mins "+second+"secs";
+				second++;
+				if(second == 60){
+					minute++;
+					second=0;
+				}
+				if(minute == 60){
+					hour++;
+					minute = 0;
+				}
+			},1000);
+			
+			function congratulations(){
+    if (checkForMatch().length == 12){
+        clearInterval(interval);
+        finalTime = timer.innerHTML;
+
+        // show congratulations modal
+        modal.classList.add("show");
+
+        // declare star rating variable
+        var starRating = document.querySelector(".stars").innerHTML;
+
+        //showing move, rating, time on modal
+        document.getElementById("finalMove").innerHTML = moves;
+        document.getElementById("starRating").innerHTML = starRating;
+        document.getElementById("totalTime").innerHTML = finalTime;
+
+        //closeicon on modal
+        closeModal();
+    };
+}
+}
+
+			cards.forEach(card => card.addEventListener('click', flipCard));
+		</script>
+		
+	</div>
+  
+</body>
+</html>
