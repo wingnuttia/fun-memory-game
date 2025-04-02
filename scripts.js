@@ -60,3 +60,37 @@
  })();
 
   cards.forEach(card => card.addEventListener('click', flipCard));
+
+  function resetGame() {
+    // Reset variables
+    [hasFlippedCard, lockBoard] = [false, false];
+    [firstCard, secondCard] = [null, null];
+  
+    // Reset moves
+    moves = 0;
+    counter.innerHTML = moves;
+  
+    // Reset stars
+    stars.forEach(star => {
+      star.style.visibility = "visible";
+    });
+  
+    // Stop and reset timer
+    clearInterval(interval);
+    second = 0; minute = 0; hour = 0;
+    timer.innerHTML = "0 mins 0 secs";
+  
+    // Unflip all cards
+    cards.forEach(card => {
+      card.classList.remove('flip');
+      card.addEventListener('click', flipCard);
+    });
+  
+    // Shuffle cards
+    setTimeout(() => {
+      cards.forEach(card => {
+        let randomPos = Math.floor(Math.random() * 12);
+        card.style.order = randomPos;
+      });
+    }, 500); // give it a moment to unflip before shuffling
+  }
